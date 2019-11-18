@@ -34,7 +34,7 @@
         
         
     <div class="content" id="Input">
-            
+        This is screen 1    
     </div>
     <div class="content" id="List">
         This is screen 2
@@ -49,6 +49,25 @@
         GitHub Repo Link: https://github.com/Xiansia/IT202-BigProject
     </div>
 
+    <script>
+        var result = null;
+        //var html = "";
+        $(document).ready(function() {
+
+          function hideScreens() {
+            $(".content").hide();
+
+          }
+          hideScreens();
+      $(".nav-link").on("click", function(){
+        hideScreens();
+        var target = $(this).attr("href");
+        $(target).show();
+        $(target).load("page_content/_" + target.replace("#","") + ".html");
+      });
+        
+     });
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
     </body>
