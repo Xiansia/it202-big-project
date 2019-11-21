@@ -14,7 +14,7 @@
     <body>
 	<!-- navigation bar -->
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<a class="navbar-brand" href="#">San Francisco vs. Chicago Landmarks</a>
+		<a class="navbar-brand" href="#">Landmark Tracker</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"></button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
@@ -36,7 +36,13 @@
         
         
     <div class="content" id="Input">
-        This is screen 1    
+        <p>What city would you like to visit?</p>
+        <input type="checkbox" name="day" value="CHI" class="daysAvailable">Chicago<br>
+        <input type="checkbox" name="day" value="NY" class="daysAvailable">New York<br>
+        <input type="checkbox" name="day" value="SF" class="daysAvailable">San Francisco<br>
+        
+        
+        
     </div>
     <div class="content" id="List">
         <div class="mdc-data-table">
@@ -83,9 +89,13 @@
     </div>
 
     <script>
-        var result = null;
+        var SFresult = null;
+        var Chiresult = null;
+        var NYresult = null;
+        
         var SFlink = "https://data.sfgov.org/api/views/yqxu-izzm/rows.json"
         var Chilink = "https://data.cityofchicago.org/resource/tdab-kixi.json"
+        var NYlink = "https://data.cityofnewyork.us/api/views/qw5n-twjr/rows.json"
         //var html = "";
         $(document).ready(function() {
 
@@ -96,9 +106,19 @@
           hideScreens();
           $.get(SFlink, function(response){
            //console.log("We have reached here.");
-           result = response;
-           console.log(result);
-        });
+           SFresult = response;
+           console.log(SFresult);
+          });
+          $.get(Chilink, function(response){
+           //console.log("We have reached here.");
+           Chiresult = response;
+           console.log(Chiresult);
+          });
+          $.get(NYlink, function(response){
+           //console.log("We have reached here.");
+           NYresult = response;
+           console.log(NYresult);
+          });
           $(".nav-link").on("click", function(){
             hideScreens();
             var target = $(this).attr("href");
