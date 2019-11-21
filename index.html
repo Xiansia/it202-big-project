@@ -37,13 +37,14 @@
         
     <div class="content" id="Input">
         <p>What city would you like to visit?</p>
-        <input type="checkbox" name="day" value="CHI" class="daysAvailable">Chicago<br>
-        <input type="checkbox" name="day" value="NY" class="daysAvailable">New York<br>
-        <input type="checkbox" name="day" value="SF" class="daysAvailable">San Francisco<br>
+        <input type="checkbox" name="Chicago" value="CHI" class="city">Chicago<br>
+        <input type="checkbox" name="New York" value="NY" class="city">New York<br>
+        <input type="checkbox" name="San Francisco" value="SF" class="city">San Francisco<br>
         
-        
+        <input type="button" value="Submit" id="search">
         
     </div>
+        
     <div class="content" id="List">
         <div class="mdc-data-table">
           <table class="mdc-data-table__table" aria-label="Dessert calories">
@@ -76,8 +77,10 @@
               </tr>
             </tbody>
           </table>
-</div>
+        </div>    
     </div>
+            
+         
     <div class="content" id="Map">
         This is screen 3
     </div>
@@ -127,6 +130,24 @@
           });
         
          });
+        
+        $("#ListNav").on("click",function(){
+            //No results appeared. How? I don't know.
+            if((SFresult == null)&&(NYresult == null)&&(Chiresult == null)){
+                $("#List").html("No Results :(");
+                return false;
+            }
+        });
+        $("#search").on("click",function(){
+            
+            var array = document.getElementsByClassName("city");
+            
+            for(var item of array){
+              if($(item).is(":checked")){
+                console.log(item);
+              }
+            }
+        });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
