@@ -41,7 +41,10 @@
         <input type="checkbox" name="New York" value="NY" class="city">New York<br>
         <input type="checkbox" name="San Francisco" value="SF" class="city">San Francisco<br>
         
-        <input type="button" value="Submit" id="search">
+        <button class="mdc-button mdc-button--raised" id="search">
+          <div class="mdc-button__ripple"></div>
+          <span class="mdc-button__label">Button</span>
+        </button>
         
     </div>
         
@@ -107,21 +110,9 @@
 
           }
           hideScreens();
-          $.get(SFlink, function(response){
-           //console.log("We have reached here.");
-           SFresult = response;
-           console.log(SFresult);
-          });
-          $.get(Chilink, function(response){
-           //console.log("We have reached here.");
-           Chiresult = response;
-           console.log(Chiresult);
-          });
-          $.get(NYlink, function(response){
-           //console.log("We have reached here.");
-           NYresult = response;
-           console.log(NYresult);
-          });
+          
+          
+          
           $(".nav-link").on("click", function(){
             hideScreens();
             var target = $(this).attr("href");
@@ -137,17 +128,42 @@
                 $("#List").html("No Results :(");
                 return false;
             }
+
+            var html = "";
+            
         });
         $("#search").on("click",function(){
             
             var array = document.getElementsByClassName("city");
-            
             for(var item of array){
               if($(item).is(":checked")){
-                console.log(item);
+                switch(item.name){
+                    case "Chicago":
+                        $.get(Chilink, function(response){
+                           //console.log("We have reached here.");
+                           Chiresult = response;
+                           console.log(Chiresult);
+                        });
+                        break;
+                    case "New York":
+                        $.get(NYlink, function(response){
+                           //console.log("We have reached here.");
+                           NYresult = response;
+                           console.log(NYresult);
+                        });
+                        break;
+                    case "San Francisco":
+                        $.get(SFlink, function(response){
+                           //console.log("We have reached here.");
+                           SFresult = response;
+                           console.log(SFresult);
+                        });
+                        break;
+                }
               }
             }
         });
+        
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
