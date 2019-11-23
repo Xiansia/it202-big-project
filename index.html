@@ -329,6 +329,12 @@
                         allcheckBoxes[i].checked = true;
                     }
                 }
+                else{
+                    var allcheckBoxes = document.querySelectorAll("input[id='data']");
+                    for (var i = 0; i < allcheckBoxes.length; i++) {
+                        allcheckBoxes[i].checked = false;
+                    }
+                }
             });            
         });
         
