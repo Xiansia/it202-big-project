@@ -49,7 +49,12 @@
     </div>
         
     <div class="content" id="List">
-<!--         <div class="mdc-data-table">
+        This is screen 2
+    </div>
+            
+         
+    <div class="content" id="Map">
+        <div class="mdc-data-table">
           <table class="mdc-data-table__table" id="data">
             <thead>
               <tr class="mdc-data-table__header-row">
@@ -151,12 +156,7 @@
               </tr>
             </tbody>
           </table>
-        </div> -->
-    </div>
-            
-         
-    <div class="content" id="Map">
-        This is screen 3
+        </div>
     </div>
   
     <div class="content" id="About">
@@ -193,6 +193,8 @@
         
          });
         
+        
+        
         $("#ListNav").on("click",function(){
             //No results appeared. How? I don't know.
             if((SFresult == null)&&(NYresult == null)&&(Chiresult == null)){
@@ -201,10 +203,20 @@
             }
 
             //Header of Table html
-            var html = "<div class='mdc-data-table'>";
+            var html = "<p>Select the areas that you would like to visit.</p>"
+            html+= "<div class='mdc-data-table'>";
             html+= "<table class='mdc-data-table__table' id='data'>";
             html+= "<thead>";
             html+= "<tr class='mdc-data-table__header-row'>";
+            
+            //HTML Checkbox Code
+            html+= "<th class='mdc-data-table__header-cell mdc-data-table__header-cell--checkbox' role='columnheader' scope='col'>"
+            html+= "<div class='mdc-checkbox mdc-data-table__row-checkbox mdc-checkbox--selected'>"     
+            html+= "<input type='checkbox' class='mdc-checkbox__native-control' aria-labelledby='u0'/>"
+            html+= "<div class='mdc-checkbox__background'>"
+            html+= "<svg class='mdc-checkbox__checkmark' viewbox='0 0 24 24'>"
+            html+= "<path class='mdc-checkbox__checkmark-path' fill='none' d='M1.73,12.91 8.1,19.28 22.79,4.59'/>"
+            html+= "</svg><div class='mdc-checkbox__mixedmark'></div></div></div></td>"
             
             //Actual Table Info
             html+= "<th class='mdc-data-table__header-cell' role='columnheader' scope='col'>Location Name</th>"
@@ -223,6 +235,16 @@
             if(NYresult != null){
                 console.log(NYresult);  
                 for(var i =0; i < NYresult.data.length; i++){
+                    //HTML Row Checkbox Code
+                    html+= "<td class='mdc-data-table__cell mdc-data-table__cell--checkbox'>"
+                    html+= "<div class='mdc-checkbox mdc-data-table__header-row-checkbox mdc-checkbox--selected'>"
+                    html+= "<input type='checkbox' class='mdc-checkbox__native-control' aria-label='Checkbox for header row selection'/>"
+                    html+= "<div class='mdc-checkbox__background'>"
+                    html+= "<svg class='mdc-checkbox__checkmark' viewbox='0 0 24 24'>"
+                    html+= "<path class='mdc-checkbox__checkmark-path' fill='none' d='M1.73,12.91 8.1,19.28 22.79,4.59'/>"
+                    html+= "</svg><div class='mdc-checkbox__mixedmark'></div></div></div></th>"
+                    
+                    
                     var name = NYresult.data[i][12];
                     //console.log("Result: " + NYresult.data[i][12]);
                     html+= "<td class='mdc-data-table__cell'>"+name+"</td>"
@@ -242,6 +264,15 @@
             if(SFresult != null){
                 console.log(SFresult);  
                 for (var i = 0; i < SFresult.data.length; i++) {
+                    //HTML Row Checkbox Code
+                    html+= "<td class='mdc-data-table__cell mdc-data-table__cell--checkbox'>"
+                    html+= "<div class='mdc-checkbox mdc-data-table__header-row-checkbox mdc-checkbox--selected'>"
+                    html+= "<input type='checkbox' class='mdc-checkbox__native-control' aria-label='Checkbox for header row selection'/>"
+                    html+= "<div class='mdc-checkbox__background'>"
+                    html+= "<svg class='mdc-checkbox__checkmark' viewbox='0 0 24 24'>"
+                    html+= "<path class='mdc-checkbox__checkmark-path' fill='none' d='M1.73,12.91 8.1,19.28 22.79,4.59'/>"
+                    html+= "</svg><div class='mdc-checkbox__mixedmark'></div></div></div></th>"
+                    
                     var name = SFresult.data[i][10];
                     var entry = SFresult.data[i][8];
                     html+= "<td class='mdc-data-table__cell'>"+name+"</td>"
@@ -261,6 +292,15 @@
             if(Chiresult != null){
                 console.log(Chiresult)
                 for (var i = 0; i < Chiresult.length; i++) {
+                     //HTML Row Checkbox Code
+                     html+= "<td class='mdc-data-table__cell mdc-data-table__cell--checkbox'>"
+                     html+= "<div class='mdc-checkbox mdc-data-table__header-row-checkbox mdc-checkbox--selected'>"
+                     html+= "<input type='checkbox' class='mdc-checkbox__native-control' aria-label='Checkbox for header row selection'/>"
+                     html+= "<div class='mdc-checkbox__background'>"
+                     html+= "<svg class='mdc-checkbox__checkmark' viewbox='0 0 24 24'>"
+                     html+= "<path class='mdc-checkbox__checkmark-path' fill='none' d='M1.73,12.91 8.1,19.28 22.79,4.59'/>"
+                     html+= "</svg><div class='mdc-checkbox__mixedmark'></div></div></div></th>"
+
                      var name = Chiresult[i].landmark_name;
                      html+= "<td class='mdc-data-table__cell'>"+name+"</td>"
                      html+= "<td class='mdc-data-table__cell'>Chicago</td>"
