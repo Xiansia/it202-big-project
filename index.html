@@ -208,8 +208,9 @@
             
             //Actual Table Info
             html+= "<th class='mdc-data-table__header-cell' role='columnheader' scope='col'>Location Name</th>"
-            html+= "<th class='mdc-data-table__header-cell' role='columnheader' scope='col'>Longitude</th>"
+            html+= "<th class='mdc-data-table__header-cell' role='columnheader' scope='col'>City</th>"
             html+= "<th class='mdc-data-table__header-cell' role='columnheader' scope='col'>Latitude</th>"
+            html+= "<th class='mdc-data-table__header-cell' role='columnheader' scope='col'>Longitude</th>"
             html+= "</tr>"
             html+= "</thead>"
             
@@ -223,20 +224,18 @@
                 console.log(NYresult);  
                 for(var i =0; i < NYresult.data.length; i++){
                     var name = NYresult.data[i][12];
-                    console.log("Result: " + NYresult.data[i][12]);
+                    //console.log("Result: " + NYresult.data[i][12]);
                     html+= "<td class='mdc-data-table__cell'>"+name+"</td>"
+                    html+= "<td class='mdc-data-table__cell'>New York</td>"
                     //console.log(NYresult.data[i][11]);
-                    var location = NYresult.data[i][11];
-                    location = location.substring(location.lastIndexOf("(")+1, location.indexOf(","));
-                    //console.log(location);
+                    var entry = NYresult.data[i][11];
+                    var location = entry.substring(16, entry.indexOf(","));
                     var latitude = location.substring(0, location.indexOf(" "));
                     var longitude = location.substring(location.indexOf(" "), location.length);
                     latitude = latitude.trim();
                     longitude = longitude.trim();
-                    console.log(latitude);
-                    console.log(longitude);
-                    html+= "<td class='mdc-data-table__cell'>"+latitude+"</td>"
                     html+= "<td class='mdc-data-table__cell'>"+longitude+"</td>"
+                    html+= "<td class='mdc-data-table__cell'>"+latitude+"</td>"
                     html+= "<tr>";
                 }
             }
@@ -244,14 +243,19 @@
                 console.log(SFresult);  
                 for (var i = 0; i < SFresult.data.length; i++) {
                     var name = SFresult.data[i][10];
-                    var location = SFresult.data[i][8];
-                    location = location.substring(location.lastIndexOf("(")+1, location.indexOf(","));
+                    var entry = SFresult.data[i][8];
+                    html+= "<td class='mdc-data-table__cell'>"+name+"</td>"
+                    html+= "<td class='mdc-data-table__cell'>San Francisco</td>"
+                    var location = entry.substring(12, entry.indexOf(","));
                     var latitude = location.substring(0, location.indexOf(" "));
                     var longitude = location.substring(location.indexOf(" "), location.length);
                     latitude = latitude.trim();
                     longitude = longitude.trim();
                     //console.log(latitude);
                     //console.log(longitude);
+                    html+= "<td class='mdc-data-table__cell'>"+longitude+"</td>"
+                    html+= "<td class='mdc-data-table__cell'>"+latitude+"</td>"
+                    html+= "<tr>";
                     
                      
                 }                
@@ -296,6 +300,19 @@
                         });
                         break;
                 }
+              }
+              else{
+                switch(item.name){
+                    case "Chicago":
+                        Chiresult = null;
+                        break;
+                    case "New York":
+                        NYresult = null;
+                        break;
+                    case "San Francisco":
+                        SFresult = null;
+                        break;
+                }  
               }
             }
             var table = document.getElementById("data");
