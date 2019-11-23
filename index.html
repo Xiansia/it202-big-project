@@ -256,9 +256,20 @@
                     html+= "<td class='mdc-data-table__cell'>"+longitude+"</td>"
                     html+= "<td class='mdc-data-table__cell'>"+latitude+"</td>"
                     html+= "<tr>";
-                    
-                     
                 }                
+            }
+            if(Chiresult != null){
+                console.log(Chiresult)
+                for (var i = 0; i < Chiresult.length; i++) {
+                     var name = Chiresult[i].landmark_name;
+                     html+= "<td class='mdc-data-table__cell'>"+name+"</td>"
+                     html+= "<td class='mdc-data-table__cell'>Chicago</td>"
+                     var latitude = Chiresult[i].location.latitude;
+                     var longitude = Chiresult[i].location.longitude;
+                     html+= "<td class='mdc-data-table__cell'>"+longitude+"</td>"
+                     html+= "<td class='mdc-data-table__cell'>"+latitude+"</td>"
+                     html+= "<tr>";
+                }    
             }
 
             
