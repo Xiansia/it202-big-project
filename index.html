@@ -107,6 +107,8 @@
                 $("#List").html("No Results :(");
                 return false;
             }
+            
+            var counter = 0;
 
             //Header of Table html
             var html = "<p>Select the areas that you would like to visit.</p>"
@@ -139,12 +141,11 @@
             html+= "</div>"
             
             if(NYresult != null){
-                console.log(NYresult);  
                 for(var i =0; i < NYresult.data.length; i++){
                     //HTML Row Checkbox Code
-                    html+= "<td class='mdc-data-table__cell mdc-data-table__cell--checkbox'>"
+                    html+= "<td class='mdc-data-table__cell mdc-data-table__cell--checkbox' type='checkbox'>"
                     html+= "<div class='mdc-checkbox mdc-data-table__header-row-checkbox mdc-checkbox--selected'>"
-                    html+= "<input type='checkbox' class='mdc-checkbox__native-control' aria-label='Checkbox for header row selection' id='data'/>"
+                    html+= "<input type='checkbox' class='mdc-checkbox__native-control' aria-label='Checkbox for header row selection' id='data"+counter+"'/>"
                     html+= "<div class='mdc-checkbox__background'>"
                     html+= "<svg class='mdc-checkbox__checkmark' viewbox='0 0 24 24'>"
                     html+= "<path class='mdc-checkbox__checkmark-path' fill='none' d='M1.73,12.91 8.1,19.28 22.79,4.59'/>"
@@ -153,8 +154,8 @@
                     
                     var name = NYresult.data[i][12];
                     //console.log("Result: " + NYresult.data[i][12]);
-                    html+= "<td class='mdc-data-table__cell' id='locationName'>"+name+"</td>"
-                    html+= "<td class='mdc-data-table__cell' id='cityName'>New York</td>"
+                    html+= "<td class='mdc-data-table__cell' id='locationName' type='text'>"+name+"</td>"
+                    html+= "<td class='mdc-data-table__cell' id='cityName' type='text'>New York</td>"
                     //console.log(NYresult.data[i][11]);
                     var entry = NYresult.data[i][11];
                     var location = entry.substring(16, entry.indexOf(","));
@@ -162,18 +163,19 @@
                     var latitude = location.substring(location.indexOf(" "), location.length);
                     latitude = latitude.trim();
                     longitude = longitude.trim();
-                    html+= "<td class='mdc-data-table__cell' id='longitude'>"+longitude+"</td>"
-                    html+= "<td class='mdc-data-table__cell' id='latitude'>"+latitude+"</td>"
+                    html+= "<td class='mdc-data-table__cell' id='longitude' type='text'>"+longitude+"</td>"
+                    html+= "<td class='mdc-data-table__cell' id='latitude' type='text'>"+latitude+"</td>"
                     html+= "<tr>";
+                    
+                    counter++;
                 }
             }
-            if(SFresult != null){
-                console.log(SFresult);  
+            if(SFresult != null){ 
                 for (var i = 0; i < SFresult.data.length; i++) {
                     //HTML Row Checkbox Code
-                    html+= "<td class='mdc-data-table__cell mdc-data-table__cell--checkbox'>"
+                    html+= "<td class='mdc-data-table__cell mdc-data-table__cell--checkbox' type='checkbox'>"
                     html+= "<div class='mdc-checkbox mdc-data-table__header-row-checkbox mdc-checkbox--selected'>"
-                    html+= "<input type='checkbox' class='mdc-checkbox__native-control' aria-label='Checkbox for header row selection' id='data'/>"
+                    html+= "<input type='checkbox' class='mdc-checkbox__native-control' aria-label='Checkbox for header row selection' id='data"+counter+"'/>"
                     html+= "<div class='mdc-checkbox__background'>"
                     html+= "<svg class='mdc-checkbox__checkmark' viewbox='0 0 24 24'>"
                     html+= "<path class='mdc-checkbox__checkmark-path' fill='none' d='M1.73,12.91 8.1,19.28 22.79,4.59'/>"
@@ -181,8 +183,8 @@
                     
                     var name = SFresult.data[i][10];
                     var entry = SFresult.data[i][8];
-                    html+= "<td class='mdc-data-table__cell' id='locationName'>"+name+"</td>"
-                    html+= "<td class='mdc-data-table__cell' id='cityName'>San Francisco</td>"
+                    html+= "<td class='mdc-data-table__cell' id='locationName' type='text'>"+name+"</td>"
+                    html+= "<td class='mdc-data-table__cell' id='cityName' type='text'>San Francisco</td>"
                     var location = entry.substring(12, entry.indexOf(","));
                     var longitude = location.substring(0, location.indexOf(" "));
                     var latitude = location.substring(location.indexOf(" "), location.length);
@@ -190,31 +192,34 @@
                     longitude = longitude.trim();
                     //console.log(latitude);
                     //console.log(longitude);
-                    html+= "<td class='mdc-data-table__cell' id='longitude'>"+longitude+"</td>"
-                    html+= "<td class='mdc-data-table__cell' id='latitude'>"+latitude+"</td>"
+                    html+= "<td class='mdc-data-table__cell' id='longitude' type='text'>"+longitude+"</td>"
+                    html+= "<td class='mdc-data-table__cell' id='latitude' type='text'>"+latitude+"</td>"
                     html+= "<tr>";
+                    
+                    counter++;
                 }                
             }
             if(Chiresult != null){
-                console.log(Chiresult)
                 for (var i = 0; i < Chiresult.length; i++) {
                      //HTML Row Checkbox Code
-                     html+= "<td class='mdc-data-table__cell mdc-data-table__cell--checkbox'>"
+                     html+= "<td class='mdc-data-table__cell mdc-data-table__cell--checkbox' type='checkbox'>"
                      html+= "<div class='mdc-checkbox mdc-data-table__header-row-checkbox mdc-checkbox--selected'>"
-                     html+= "<input type='checkbox' class='mdc-checkbox__native-control' aria-label='Checkbox for header row selection' id='data'/>"
+                     html+= "<input type='checkbox' class='mdc-checkbox__native-control' aria-label='Checkbox for header row selection' id='data"+counter+"'/>"
                      html+= "<div class='mdc-checkbox__background'>"
                      html+= "<svg class='mdc-checkbox__checkmark' viewbox='0 0 24 24'>"
                      html+= "<path class='mdc-checkbox__checkmark-path' fill='none' d='M1.73,12.91 8.1,19.28 22.79,4.59'/>"
                      html+= "</svg><div class='mdc-checkbox__mixedmark'></div></div></div></th>"
 
                      var name = Chiresult[i].landmark_name;
-                     html+= "<td class='mdc-data-table__cell' id='locationName'>"+name+"</td>"
-                     html+= "<td class='mdc-data-table__cell' id='cityName'>Chicago</td>"
+                     html+= "<td class='mdc-data-table__cell' id='locationName' type='text'>"+name+"</td>"
+                     html+= "<td class='mdc-data-table__cell' id='cityName' type='text'>Chicago</td>"
                      var latitude = Chiresult[i].location.latitude;
                      var longitude = Chiresult[i].location.longitude;
-                     html+= "<td class='mdc-data-table__cell' id='longitude'>"+longitude+"</td>"
-                     html+= "<td class='mdc-data-table__cell' id='latitude'>"+latitude+"</td>"
+                     html+= "<td class='mdc-data-table__cell' id='longitude' type='text'>"+longitude+"</td>"
+                     html+= "<td class='mdc-data-table__cell' id='latitude' type='text'>"+latitude+"</td>"
                      html+= "<tr>";
+                    
+                    counter++;
                 }    
             }
 
@@ -292,6 +297,7 @@
         $("#MapNav").on("click",function(){
             //Do map stuff here
             var table = document.getElementById("data");
+            console.log(table);
             if((SFresult == null)&&(NYresult == null)&&(Chiresult == null)){
                 alert("Results is null!");
                 return false;
@@ -304,12 +310,26 @@
     <script>
       function initMap(table){
           var map;
+          var counter = 0;
           if(table == null){
             console.log("Table was null")
             return false;
           }
-          var texts = $("td").map(function() {
-            return $(this).text();
+          var texts = $("td").map(function(){
+            if( $(this).hasClass("mdc-data-table__cell mdc-data-table__cell--checkbox")){
+                console.log("1st option");
+                if($("#data" + counter).is(":checked")){
+                    counter++;
+                    return "true";
+                }
+                counter++;
+                return "false";
+                
+            }
+            else{
+                console.log("2nd option");
+                return $(this).text();
+            }
           });
           console.log(texts);
           var locationName = "";
@@ -338,7 +358,7 @@
                          break;
                   }
               }
-              console.log("Location: " + locationName + "\nLongitude: " + longitude + "\nLatitude: " + latitude);
+              //console.log("Location: " + locationName + "\nLongitude: " + longitude + "\nLatitude: " + latitude);
               var coordinates = {lat: latitude, lng: longitude};
               var contentString = "<p>Blank</p>";
               
@@ -352,7 +372,6 @@
                   title: locationName,
                   content: contentString
                 });
-              console.log(marker);
               marker.addListener('click', function() {
                   infowindow.open(map, this);
                   infowindow.setContent(infowindow.anchor.content)
