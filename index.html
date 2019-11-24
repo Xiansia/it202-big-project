@@ -158,8 +158,8 @@
                     //console.log(NYresult.data[i][11]);
                     var entry = NYresult.data[i][11];
                     var location = entry.substring(16, entry.indexOf(","));
-                    var latitude = location.substring(0, location.indexOf(" "));
-                    var longitude = location.substring(location.indexOf(" "), location.length);
+                    var longitude = location.substring(0, location.indexOf(" "));
+                    var latitude = location.substring(location.indexOf(" "), location.length);
                     latitude = latitude.trim();
                     longitude = longitude.trim();
                     html+= "<td class='mdc-data-table__cell' id='longitude'>"+longitude+"</td>"
@@ -184,8 +184,8 @@
                     html+= "<td class='mdc-data-table__cell' id='locationName'>"+name+"</td>"
                     html+= "<td class='mdc-data-table__cell' id='cityName'>San Francisco</td>"
                     var location = entry.substring(12, entry.indexOf(","));
-                    var latitude = location.substring(0, location.indexOf(" "));
-                    var longitude = location.substring(location.indexOf(" "), location.length);
+                    var longitude = location.substring(0, location.indexOf(" "));
+                    var latitude = location.substring(location.indexOf(" "), location.length);
                     latitude = latitude.trim();
                     longitude = longitude.trim();
                     //console.log(latitude);
@@ -316,10 +316,9 @@
           var longitude = "";
           var latitude = "";
           map = new google.maps.Map(document.getElementById('Map'), {
-              center: {lat: 41.878, lng: 87.629},
+              center: {lat: 40.67284251295252, lng: -73.96888815911203},
               zoom: 4
           });
-          console.log(map);
 
           for(var i = 0; i < texts.length; i=i+5){
               for(var j = 0; j<5; j++){
@@ -341,7 +340,7 @@
               }
               console.log("Location: " + locationName + "\nLongitude: " + longitude + "\nLatitude: " + latitude);
               var coordinates = {lat: latitude, lng: longitude};
-              var contentString = "Blank";
+              var contentString = "<p>Blank</p>";
               
               var infowindow = new google.maps.InfoWindow({
                     
@@ -353,11 +352,12 @@
                   title: locationName,
                   content: contentString
                 });
+              console.log(marker);
               marker.addListener('click', function() {
                   infowindow.open(map, this);
                   infowindow.setContent(infowindow.anchor.content)
               });
-                
+              marker.setMap(map);
           }
           
 
