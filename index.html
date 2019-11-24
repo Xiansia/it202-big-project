@@ -9,7 +9,16 @@
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	 crossorigin="anonymous">
-
+    <style>
+        #Map{
+            height: 100%;
+        }
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
     </head>
     <body>
 	<!-- navigation bar -->
@@ -51,8 +60,7 @@
     <div class="content" id="List">
         This is screen 2
     </div>
-            
-         
+           
     <div class="content" id="Map">
         This is screen 3
     </div>
@@ -294,8 +302,12 @@
         });
     </script>
     <script>
-      var map;
       function initMap(table){
+          var map;
+          if(table == null){
+            console.log("Table was null")
+            return false;
+          }
           var texts = $("td").map(function() {
             return $(this).text();
           });
@@ -303,6 +315,12 @@
           var locationName = "";
           var longitude = "";
           var latitude = "";
+          map = new google.maps.Map(document.getElementById('Map'), {
+              center: {lat: 41.878, lng: 87.629},
+              zoom: 4
+          });
+          console.log(map);
+
           for(var i = 0; i < texts.length; i=i+5){
               for(var j = 0; j<5; j++){
                   switch(j%5){
@@ -314,14 +332,31 @@
                       case 2:
                          break;
                       case 3:
-                         longitude = texts[i+j];
+                         longitude = parseFloat(texts[i+j]);
                          break;
                       case 4:
-                         latitude = texts[i+j];
+                         latitude = parseFloat(texts[i+j]);
                          break;
                   }
               }
-              console.log("Location: " + locationName + "\nLongitude: " + longitude + "\nLatitude: " + latitude);             
+              console.log("Location: " + locationName + "\nLongitude: " + longitude + "\nLatitude: " + latitude);
+              var coordinates = {lat: latitude, lng: longitude};
+              var contentString = "Blank";
+              
+              var infowindow = new google.maps.InfoWindow({
+                    
+              });
+              
+              var marker = new google.maps.Marker({
+                  position: coordinates,
+                  map: map,
+                  title: locationName,
+                  content: contentString
+                });
+              marker.addListener('click', function() {
+                  infowindow.open(map, this);
+                  infowindow.setContent(infowindow.anchor.content)
+              });
                 
           }
           
@@ -331,5 +366,7 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDIRdgMDrtq7_bq3YTIxCpLoyVT92ctVo&callback=initMap"
+  async defer></script>
     </body>
 </html>
