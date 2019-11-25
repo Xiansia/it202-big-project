@@ -10,6 +10,7 @@
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	 crossorigin="anonymous">
+    <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
     <style>
         #Map{
             height: 100%;
@@ -36,6 +37,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#Map" id="MapNav">Map</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#Data">Database</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#About">About</a>
@@ -65,6 +69,9 @@
     <div class="content" id="Map">
         This is screen 3
     </div>
+    <div class="content" id="Data">
+        This is screen 4
+    </div>
   
     <div class="content" id="About">
         App Name: Movie Search Application<br>
@@ -77,10 +84,12 @@
         var Chiresult = null;
         var NYresult = null;
         
-        var SFlink = "https://data.sfgov.org/api/views/yqxu-izzm/rows.json"
-        var Chilink = "https://data.cityofchicago.org/resource/tdab-kixi.json"
-        var NYlink = "https://data.cityofnewyork.us/api/views/qw5n-twjr/rows.json"
-        //var html = "";
+        var SFlink = "https://data.sfgov.org/api/views/yqxu-izzm/rows.json";
+        var Chilink = "https://data.cityofchicago.org/resource/tdab-kixi.json";
+        var NYlink = "https://data.cityofnewyork.us/api/views/qw5n-twjr/rows.json";
+        var db = new Dexie("Database");
+        var table = null;
+        var index = 0;
         $(document).ready(function() {
 
           function hideScreens() {
@@ -88,7 +97,9 @@
 
           }
           hideScreens();
-          
+          db.version(1).stores({
+              data: 'number, table'
+          });
           
           
           $(".nav-link").on("click", function(){
@@ -297,7 +308,7 @@
         
         $("#MapNav").on("click",function(){
             //Do map stuff here
-            var table = document.getElementById("data");
+            table = document.getElementById("data");
             console.log(table);
             if((SFresult == null)&&(NYresult == null)&&(Chiresult == null)){
                 alert("Results is null!");
@@ -305,8 +316,17 @@
             }
             else{
                 initMap(table);
+                db.data.put({number: index, table: table});
             }
         });
+        $("#DataNav").on("click",function(){
+            db.open().then(function(data){
+
+                console.log(data);
+
+            });
+        });
+        
     </script>
     <script>
       function initMap(table){
