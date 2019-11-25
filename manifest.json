@@ -1,6 +1,6 @@
 {
   "name": "Big Project",
-  "short_name": "PWA",
+  "short_name": "BP",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "navy",
