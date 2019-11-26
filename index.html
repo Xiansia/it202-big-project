@@ -9,7 +9,7 @@
     <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	 crossorigin="anonymous">
+crossorigin="anonymous">
     <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
     <style>
         #Map{
@@ -23,10 +23,10 @@
     </style>
     </head>
     <body>
-	<!-- navigation bar -->
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<a class="navbar-brand" href="#">Landmark Tracker</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"></button>
+<!-- navigation bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<a class="navbar-brand" href="#">Landmark Tracker</a>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"></button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
@@ -39,7 +39,7 @@
                     <a class="nav-link" href="#Map" id="MapNav">Map</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#Data">Database</a>
+                    <a class="nav-link" href="#Data" id="DataNav">Database</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#About">About</a>
@@ -90,6 +90,7 @@
         var db = new Dexie("Database");
         var table = null;
         var index = 0;
+        var html = "";
         $(document).ready(function() {
 
           function hideScreens() {
@@ -98,7 +99,7 @@
           }
           hideScreens();
           db.version(1).stores({
-              data: 'number, table'
+              data: 'number, result1, result2, result3'
           });
           
           
@@ -108,6 +109,7 @@
             $(target).show();
             $(target).load("page_content/_" + target.replace("#","") + ".html");
           });
+          console.log("Goodbye");
          });
         
         
@@ -122,7 +124,7 @@
             var counter = 0;
 
             //Header of Table html
-            var html = "<p>Select the areas that you would like to visit.</p>"
+            html = "<p>Select the areas that you would like to visit.</p>"
             html+= "<div class='mdc-data-table'>";
             html+= "<table class='mdc-data-table__table' id='data'>";
             html+= "<thead>";
@@ -239,6 +241,7 @@
                 
             html+= "</table>"
             $("#List").html(html);
+            html = "";
             //console.log(document.body.innerHTML);
                 
             var checkBox = document.querySelector("input[id='mainCheckbox']");
@@ -246,13 +249,13 @@
                 
                 if($(this).is(":checked")){
                     //Get all selectors and select them
-                    var allcheckBoxes = document.querySelectorAll("input[id='data']");
+                    var allcheckBoxes = document.querySelectorAll("input[aria-label='Checkbox for header row selection']");
                     for (var i = 0; i < allcheckBoxes.length; i++) {
                         allcheckBoxes[i].checked = true;
                     }
                 }
                 else{
-                    var allcheckBoxes = document.querySelectorAll("input[id='data']");
+                    var allcheckBoxes = document.querySelectorAll("input[aria-label='Checkbox for header row selection']");
                     for (var i = 0; i < allcheckBoxes.length; i++) {
                         allcheckBoxes[i].checked = false;
                     }
@@ -302,7 +305,11 @@
                         break;
                 }  
               }
+             
             }
+            console.log(index);
+            db.data.put({number: index, result1: Chiresult, result2: NYresult, result3: SFresult});
+            index++;
         });
         
         $("#MapNav").on("click",function(){
@@ -315,15 +322,46 @@
             }
             else{
                 initMap(table);
-                db.data.put({number: index, table: table});
+//                 console.log(Chiresult);
+//                 console.log(NYresult);
+//                 console.log(SFresult);
+                
             }
         });
         $("#DataNav").on("click",function(){
-            db.open().then(function(data){
+            html = "";
+            html = "<p>History of Searches</p>";
+            html+= "<div class='mdc-data-table'>";
+            html+= "<table class='mdc-data-table__table' id='data'>";
+            html+= "<thead>";
+            html+= "<tr class='mdc-data-table__header-row'>";
+            
+            //Actual Table Info
+            html+= "<th class='mdc-data-table__header-cell' role='columnheader' scope='col'>Index</th>"
+            html+= "<th class='mdc-data-table__header-cell' role='columnheader' scope='col'>Chicago Result</th>"
+            html+= "<th class='mdc-data-table__header-cell' role='columnheader' scope='col'>New York Result</th>"
+            html+= "<th class='mdc-data-table__header-cell' role='columnheader' scope='col'>San Francisco Result</th>"
+            html+= "</tr>"
+            html+= "</thead>"
 
-                console.log(data);
-
-            });
+            console.log(index);
+            for(var i = 0; i <index; i++){
+                var result = db.open().then(function(){
+                    return db.data.get(i);
+                });
+                console.log(result);
+                html+= "<tr>"
+                html+= "<td class='mdc-data-table__cell'>"+i+"</td>"
+                html+= "<td class='mdc-data-table__cell'>✓</td>"
+                html+= "<td class='mdc-data-table__cell'>✓</td>"
+                html+= "<td class='mdc-data-table__cell'>✓</td>"   
+                html+= "</tr>";
+                
+            }
+            html+="</table>"
+            $("#Data").html(html);
+            console.log(html);
+            
         });
         
     </script>
@@ -337,7 +375,7 @@
           }
           var texts = $("td").map(function(){
             if( $(this).hasClass("mdc-data-table__cell mdc-data-table__cell--checkbox")){
-                console.log("1st option");
+                //console.log("1st option");
                 if($("#data" + counter).is(":checked")){
                     counter++;
                     return "true";
@@ -347,11 +385,11 @@
                 
             }
             else{
-                console.log("2nd option");
+                //console.log("2nd option");
                 return $(this).text();
             }
           });
-          console.log(texts);
+          
           var locationName = "";
           var longitude = "";
           var latitude = "";
@@ -360,10 +398,12 @@
               zoom: 4
           });
 
+          var flag;
           for(var i = 0; i < texts.length; i=i+5){
               for(var j = 0; j<5; j++){
                   switch(j%5){
                       case 0:
+                         flag = texts[i+j]; 
                          break;
                       case 1:
                          locationName = texts[i+j];
@@ -378,14 +418,18 @@
                          break;
                   }
               }
+              if(flag == "false"){
+                  break;
+              }
               //console.log("Location: " + locationName + "\nLongitude: " + longitude + "\nLatitude: " + latitude);
+              
               var coordinates = {lat: latitude, lng: longitude};
               var contentString = "<p>Blank</p>";
-              
+
               var infowindow = new google.maps.InfoWindow({
-                    
+
               });
-              
+
               var marker = new google.maps.Marker({
                   position: coordinates,
                   map: map,
@@ -397,6 +441,7 @@
                   infowindow.setContent(infowindow.anchor.content)
               });
               marker.setMap(map);
+ 
           }
           
 
@@ -408,16 +453,16 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDIRdgMDrtq7_bq3YTIxCpLoyVT92ctVo&callback=initMap"
   async defer></script>
      <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js')
-        .then(function(reg) {
-          // registration worked
-          console.log('Registration succeeded. Scope is ' + reg.scope);
-        }).catch(function(error) {
-          // registration failed
-          console.log('Registration failed with ' + error);
-        });
-      }
+//       if ('serviceWorker' in navigator) {
+//         navigator.serviceWorker.register('./sw.js')
+//         .then(function(reg) {
+//           // registration worked
+//           console.log('Registration succeeded. Scope is ' + reg.scope);
+//         }).catch(function(error) {
+//           // registration failed
+//           console.log('Registration failed with ' + error);
+//         });
+//       }
     </script>
     </body>
 </html>
